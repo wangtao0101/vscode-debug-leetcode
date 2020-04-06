@@ -12,6 +12,7 @@ import {
 } from '../../utils/problemUtils';
 import { IDebugConfig, IProblemType } from '../debugExecutor';
 import problemTypes from '../../problems/problemTypes';
+import { isWindows } from '../../utils/osUtils';
 
 const debugConfig: IDebugConfig = {
     type: 'cppdbg',
@@ -23,7 +24,7 @@ const debugConfig: IDebugConfig = {
             ignoreFailures: true,
         },
     ],
-    miDebuggerPath: 'gdb.exe',
+    miDebuggerPath: isWindows() ? 'gdb.exe' : 'gdb',
 };
 
 const templateMap: any = {
@@ -242,7 +243,7 @@ using namespace std;
 
         try {
             const includePath: string = path.dirname(exePath);
-            await executeCommand('g++.exe -g', [
+            await executeCommand('g++ -g', [
                 `${debugConfig.program} ${commonDestPath} ${jsonPath} -o ${exePath} -I ${includePath} -I ${thirdPartyPath}`,
             ]);
         } catch (e) {
