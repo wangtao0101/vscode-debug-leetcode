@@ -19,12 +19,12 @@ A clear and concise description of what you expected to happen.
 
 Paste here the LeetCode extension log from output channel.
 
-Guidance: Press `Ctrl+Shift+U`, and toggle the channel to `LeetCode`.
+Guidance: Press `Ctrl+Shift+U`, and toggle the channel to `Debug LeetCode`.
 
 ## Your Environment
 
-- *os*:
-- *extension settings*:
-- *nodejs version*:
-- *vscode version*:
-- *extension version*:
+-   _os_:
+-   _extension settings_:
+-   _nodejs version_:
+-   _vscode version_:
+-   _extension version_:

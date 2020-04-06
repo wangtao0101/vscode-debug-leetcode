@@ -6,29 +6,43 @@
 
 # Attention
 
-> This extension should work with (vscode-leetcode)[https://marketplace.visualstudio.com/items?itemName=shengchen.vscode-leetcode]
+> This extension should work with [vscode-leetcode](https://marketplace.visualstudio.com/items?itemName=shengchen.vscode-leetcode)
 
-### Debug a Problem
+## Debug a Problem
 
 ![debug](https://raw.githubusercontent.com/wangtao0101/vscode-debug-leetcode/master/docs/gifs/debug.gif)
 
-> Currently debug-leetcode only support Python3 and Javascript language and in the future we will support more lanuages which support vscode debug protocal. Welcome to get PR for another language. My next plan is to support c and c++.
+> Currently debug-leetcode only support Python3, Javascript and cpp language and in the future we will support more lanuages which support vscode debug protocal. Welcome to get PR for another language. My next plan is to support c and java.
 
 > Not all problems are supported(most free problems are supported) and only supported problems have debug option.
 
 > If you have any issue about the debug feature, you can [create a issue](https://github.com/wangtao0101/vscode-debug-leetcode/issues/new?template=bug.md) with detail information
 
--   Python3 debug Requirement
+## Python3 debug
 
-    -   Step 1. Install a supported version of Python3 on your system (note: that the system install of Python on macOS is not supported).
+### Requirement
 
-    -   Step 2. Install the Python extension for Visual Studio Code.
+-   Step 1. Install the [Python extension](https://marketplace.visualstudio.com/items?itemName=ms-python.python) for Visual Studio Code.
 
--   Javasript debug Requirement
+-   Step 2. Install a supported version of Python3 on your system (note: that the system install of Python on macOS is not supported) and add python command to your environment.
 
-    Nothing just vscode
+## Cpp debug
 
-# Be careful ❗️
+> Currently cpp debug only support latest MinGW
+
+### Requirement
+
+-   Step 1. Install the [C/C++ extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) for Visual Studio Code.
+
+-   Step 2. Install [MinGW](https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win32/Personal%20Builds/mingw-builds/installer/mingw-w64-install.exe/download) Windows or `sudo apt-get install build-essential gdb` for linux on your system and add gcc and gdb command to your environment.
+
+-   Step 3. You'd better read the [document](https://code.visualstudio.com/docs/cpp/config-mingw) on vscode website about the example and how to debug cpp on corresponding system.
+
+## Javasript debug
+
+Nothing just vscode
+
+## Be careful ❗️
 
 Extention will generate some stub code in your current file like:
 
