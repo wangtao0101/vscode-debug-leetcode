@@ -4,6 +4,7 @@ out/test/**
 test/**
 src/**
 !src/debug/entry/**
+!src/debug/thirdparty/**
 **/*.map
 .gitignore
 .travis.yml
