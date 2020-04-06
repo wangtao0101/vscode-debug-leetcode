@@ -6,7 +6,7 @@ import { fileMeta, canDebug, ProblemMeta } from '../utils/problemUtils';
 import { DialogType, promptForOpenOutputChannel } from '../utils/uiUtils';
 import { getActiveFilePath } from '../utils/workspaceUtils';
 
-export async function debugSolution(uri?: vscode.Uri): Promise<void> {
+export async function debugSolution(uri: vscode.Uri, input: boolean): Promise<void> {
     try {
         const filePath: string | undefined = await getActiveFilePath(uri);
         if (!filePath) {
@@ -18,27 +18,26 @@ export async function debugSolution(uri?: vscode.Uri): Promise<void> {
         if (!canDebug(meta)) {
             return;
         }
+        let result: any;
 
-        const result = await debugExecutor.execute(
-            filePath,
-            problemTypes[meta!.id]!.testCase.replace(/"/g, '\\"'),
-            meta!.lang,
-        );
-
-        // const ts: string | undefined = await vscode.window.showInputBox({
-        //     prompt: 'Enter the test cases.',
-        //     validateInput: (s: string): string | undefined =>
-        //         s && s.trim() ? undefined : 'Test case must not be empty.',
-        //     placeHolder: 'Example: [1,2,3]\\n4',
-        //     ignoreFocusOut: true,
-        // });
-        // if (ts) {
-        //     result = await debugExecutor.execute(
-        //         filePath,
-        //         ts.replace(/"/g, '\\"'),
-        //         meta!.lang,
-        //     );
-        // }
+        if (!input) {
+            result = await debugExecutor.execute(
+                filePath,
+                problemTypes[meta!.id]!.testCase.replace(/"/g, '\\"'),
+                meta!.lang,
+            );
+        } else {
+            const ts: string | undefined = await vscode.window.showInputBox({
+                prompt: 'Enter the test cases.',
+                validateInput: (s: string): string | undefined =>
+                    s && s.trim() ? undefined : 'Test case must not be empty.',
+                placeHolder: 'Example: [1,2,3]\\n4',
+                ignoreFocusOut: true,
+            });
+            if (ts) {
+                result = await debugExecutor.execute(filePath, ts.replace(/"/g, '\\"'), meta!.lang);
+            }
+        }
 
         if (!result) {
             return;

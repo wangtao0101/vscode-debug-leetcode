@@ -15,8 +15,9 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
         context.subscriptions.push(
             leetCodeChannel,
             codeLensController,
-            vscode.commands.registerCommand('debug-leetcode.debugSolution', (uri?: vscode.Uri) =>
-                debugSolution(uri),
+            vscode.commands.registerCommand(
+                'debug-leetcode.debugSolution',
+                (uri: vscode.Uri, input: boolean) => debugSolution(uri, input),
             ),
         );
     } catch (error) {
