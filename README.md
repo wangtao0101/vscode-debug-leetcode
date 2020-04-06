@@ -2,6 +2,8 @@
 
 > Solve LeetCode problems in VS Code and enjoy debugging
 
+-   English Document | [中文文档](https://github.com/wangtao0101/vscode-debug-leetcode/blob/master/docs/README_zh-CN.md)
+
 # Attention
 
 > This extension should work with (vscode-leetcode)[https://marketplace.visualstudio.com/items?itemName=shengchen.vscode-leetcode]
