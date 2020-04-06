@@ -1,0 +1,59 @@
+{
+    "name": "debug-leetcode",
+    "displayName": "Debug LeetCode",
+    "description": "Solve LeetCode problems in VS Code and enjoy debugging",
+    "version": "0.0.1",
+    "author": "wangtao0101",
+    "publisher": "wangtao0101",
+    "license": "MIT",
+    "icon": "resources/LeetCode.png",
+    "engines": {
+        "vscode": "^1.42.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/wangtao0101/vscode-debug-leetcode"
+    },
+    "homepage": "https://github.com/wangtao0101/vscode-debug-leetcode/blob/master/README.md",
+    "categories": [
+        "Other",
+        "Snippets"
+    ],
+    "keywords": [
+        "leetcode",
+        "algorithm",
+        "interview"
+    ],
+    "preview": true,
+    "activationEvents": [
+        "onLanguage:javascript",
+        "onLanguage:python",
+        "onLanguage:cpp"
+    ],
+    "main": "./out/src/extension",
+    "contributes": {
+        "commands": [
+            {
+                "command": "debug-leetcode.debugSolution",
+                "title": "Debug LeetCode",
+                "category": "Debug-LeetCode"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "format": "prettier --write \"src/**/*.ts\""
+    },
+    "devDependencies": {
+        "@types/fs-extra": "5.0.0",
+        "@types/node": "^7.0.43",
+        "@types/vscode": "1.42.0",
+        "prettier": "^2.0.3",
+        "typescript": "^3.8.0"
+    },
+    "dependencies": {
+        "fs-extra": "^6.0.1"
+    }
+}

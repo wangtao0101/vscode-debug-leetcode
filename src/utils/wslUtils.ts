@@ -1,0 +1,14 @@
+import * as vscode from 'vscode';
+import { executeCommand } from './cpUtils';
+import { isWindows } from './osUtils';
+
+export function useWsl(): boolean {
+    const leetCodeConfig: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration(
+        'leetcode',
+    );
+    return isWindows() && leetCodeConfig.get<boolean>('useWsl') === true;
+}
+
+export async function toWslPath(path: string): Promise<string> {
+    return (await executeCommand('wsl', ['wslpath', '-u', `"${path.replace(/\\/g, '/')}"`])).trim();
+}

@@ -1,0 +1,17 @@
+.vscode/**
+.vscode-test/**
+out/test/**
+test/**
+src/**
+!src/debug/entry/**
+**/*.map
+.gitignore
+.travis.yml
+package-lock.json
+tsconfig.json
+tslint.json
+**/*.gif
+ACKNOWLEDGEMENTS.md
+docs
+.github
+__pycache__
