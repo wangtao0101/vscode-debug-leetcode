@@ -2,7 +2,7 @@
     "name": "debug-leetcode",
     "displayName": "Debug LeetCode",
     "description": "Solve LeetCode problems in VS Code and enjoy debugging",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "author": "wangtao0101",
     "publisher": "wangtao0101",
     "license": "MIT",
