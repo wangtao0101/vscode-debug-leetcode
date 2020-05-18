@@ -243,9 +243,22 @@ using namespace std;
 
         try {
             const includePath: string = path.dirname(exePath);
-            await executeCommand('g++ -g', [
-                `${debugConfig.program} ${commonDestPath} ${jsonPath} -o ${exePath} -I ${includePath} -I ${thirdPartyPath}`,
-            ]);
+            await executeCommand(
+                'g++',
+                [
+                    '-g',
+                    debugConfig.program,
+                    commonDestPath,
+                    jsonPath,
+                    '-o',
+                    exePath,
+                    '-I',
+                    includePath,
+                    '-I',
+                    thirdPartyPath,
+                ],
+                { windowsVerbatimArguments: false },
+            );
         } catch (e) {
             // vscode.window.showErrorMessage(e);
             leetCodeChannel.show();
