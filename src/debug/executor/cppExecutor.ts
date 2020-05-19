@@ -257,7 +257,7 @@ using namespace std;
                     '-I',
                     thirdPartyPath,
                 ],
-                { windowsVerbatimArguments: false },
+                { shell: false },
             );
         } catch (e) {
             // vscode.window.showErrorMessage(e);
