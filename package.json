@@ -26,6 +26,7 @@
     ],
     "preview": true,
     "activationEvents": [
+        "onLanguage:javascriptreact",
         "onLanguage:javascript",
         "onLanguage:python",
         "onLanguage:cpp"
@@ -38,7 +39,19 @@
                 "title": "Debug LeetCode",
                 "category": "Debug-LeetCode"
             }
-        ]
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "debug-leetcode configuration",
+            "properties": {
+                "debug-leetcode.miDebugerPath": {
+                    "type": "string",
+                    "default": "",
+                    "description": "gdb absolute path.",
+                    "scope": "resource"
+                }
+            }
+        }
     },
     "scripts": {
         "vscode:prepublish": "npm run compile",
