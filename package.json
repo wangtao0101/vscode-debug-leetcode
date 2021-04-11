@@ -53,7 +53,14 @@
                 "debug-leetcode.cppCompiler": {
                     "type": "string",
                     "default": "gdb",
-                    "description": "cpp compiler, gdb or clang.",
+                    "enum": [
+                        "gdb",
+                        "clang"
+                    ],
+                    "enumDescriptions": [
+                        "gdb compiler",
+                        "clang compiler"
+                    ],
                     "scope": "resource"
                 }
             }

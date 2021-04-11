@@ -28,15 +28,25 @@
 
 ## Cpp debug
 
-> Currently cpp debug only support latest MinGW
+### gdb
 
-### Requirement
+#### Requirement
 
 -   Step 1. Install the [C/C++ extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) for Visual Studio Code.
 
 -   Step 2. Install [MinGW](https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win32/Personal%20Builds/mingw-builds/installer/mingw-w64-install.exe/download) Windows or `sudo apt-get install build-essential gdb` for linux on your system and add gcc and gdb command to your environment.
 
 -   Step 3. You'd better read the [document](https://code.visualstudio.com/docs/cpp/config-mingw) on vscode website about the example and how to debug cpp on corresponding system.
+
+### MacOS clang
+
+-   Step 1. Install the [C/C++ Clang Command Adapter](https://marketplace.visualstudio.com/items?itemName=mitaki28.vscode-clang) for Visual Studio Code.
+
+-   Step 2. Install [CLang][document](https://code.visualstudio.com/docs/cpp/config-clang-mac) on vscode website.
+
+-   Step 3. Set debug-leetcode.cppCompiler to clang
+
+![clang](https://raw.githubusercontent.com/wangtao0101/vscode-debug-leetcode/master/docs/gifs/compiler.png)
 
 ## Javasript debug
 

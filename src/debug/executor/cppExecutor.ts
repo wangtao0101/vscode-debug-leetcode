@@ -276,6 +276,10 @@ using namespace std;
             });
         }
 
+        if (debugConfig == null) {
+            return;
+        }
+
         const args: string[] = [
             filePath,
             testString.replace(/\\"/g, '\\\\"'),
@@ -422,7 +426,8 @@ using namespace std;
                 { shell: false },
             );
         } catch (e) {
-            // vscode.window.showErrorMessage(e);
+            vscode.window.showErrorMessage(e);
+            leetCodeChannel.append(e.stack);
             leetCodeChannel.show();
             return;
         }
@@ -475,7 +480,8 @@ using namespace std;
                 { shell: false },
             );
         } catch (e) {
-            // vscode.window.showErrorMessage(e);
+            vscode.window.showErrorMessage(e);
+            leetCodeChannel.append(e.stack);
             leetCodeChannel.show();
             return;
         }
