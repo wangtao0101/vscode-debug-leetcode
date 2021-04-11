@@ -14,19 +14,20 @@ import { IDebugConfig, IProblemType } from '../debugExecutor';
 import problemTypes from '../../problems/problemTypes';
 import { isWindows } from '../../utils/osUtils';
 
-const debugConfig: IDebugConfig = {
-    type: 'cppdbg',
-    MIMode: 'gdb',
-    setupCommands: [
-        {
-            description: 'Enable pretty-printing for gdb',
-            text: '-enable-pretty-printing',
-            ignoreFailures: true,
-        },
-    ],
-    miDebuggerPath: isWindows() ? 'gdb.exe' : 'gdb',
-};
-
+function getGdbDefaultConfig(): IDebugConfig {
+    return {
+        type: 'cppdbg',
+        MIMode: 'gdb',
+        setupCommands: [
+            {
+                description: 'Enable pretty-printing for gdb',
+                text: '-enable-pretty-printing',
+                ignoreFailures: true,
+            },
+        ],
+        miDebuggerPath: isWindows() ? 'gdb.exe' : 'gdb',
+    };
+}
 const templateMap: any = {
     116: [117],
     429: [559, 589, 590],
@@ -61,7 +62,7 @@ class CppExecutor {
             return;
         }
 
-        debugConfig.program = await getEntryFile(meta.lang, meta.id);
+        const program = await getEntryFile(meta.lang, meta.id);
 
         const newSourceFileName: string = `source${language}problem${meta.id}.cpp`;
         const newSourceFilePath: string = path.join(extensionState.cachePath, newSourceFileName);
@@ -184,7 +185,7 @@ using namespace std;
         // insert include code and replace function namem
         const includeFileRegExp: RegExp = /\/\/ @@stub\-for\-include\-code@@/;
         const codeRegExp: RegExp = /\/\/ @@stub\-for\-body\-code@@/;
-        const entryFile: string = debugConfig.program;
+        const entryFile: string = program;
         const entryFileContent: string = (await fse.readFile(entryFile)).toString();
         const newEntryFileContent: string = entryFileContent
             .replace(
@@ -240,37 +241,15 @@ using namespace std;
         );
         const thirdPartyPath: string = path.join(extDir, 'src/debug/thirdparty/c');
         const jsonPath: string = path.join(extDir, 'src/debug/thirdparty/c/cJSON.c');
-
-        try {
-            const includePath: string = path.dirname(exePath);
-            await executeCommand(
-                'g++',
-                [
-                    '-g',
-                    debugConfig.program,
-                    commonDestPath,
-                    jsonPath,
-                    '-o',
-                    exePath,
-                    '-I',
-                    includePath,
-                    '-I',
-                    thirdPartyPath,
-                ],
-                { shell: false },
-            );
-        } catch (e) {
-            // vscode.window.showErrorMessage(e);
-            leetCodeChannel.show();
-            return;
-        }
-
-        debugConfig.program = exePath;
-        debugConfig.cwd = extensionState.cachePath;
-        // map build source file to user source file
-        debugConfig.sourceFileMap = {
-            [newSourceFilePath]: filePath,
-        };
+        const debugConfig = await this.getGdbDebugConfig({
+            program,
+            exePath,
+            commonDestPath,
+            jsonPath,
+            thirdPartyPath,
+            filePath,
+            newSourceFilePath,
+        });
 
         const args: string[] = [
             filePath,
@@ -379,6 +358,57 @@ using namespace std;
         }
 
         return;
+    }
+
+    private async getGdbDebugConfig({
+        program,
+        exePath,
+        commonDestPath,
+        jsonPath,
+        thirdPartyPath,
+        filePath,
+        newSourceFilePath,
+    }: {
+        program: string;
+        exePath: string;
+        commonDestPath: string;
+        jsonPath: string;
+        thirdPartyPath: string;
+        filePath: string;
+        newSourceFilePath: string;
+    }) {
+        const debugConfig = getGdbDefaultConfig();
+        try {
+            const includePath: string = path.dirname(exePath);
+            await executeCommand(
+                'g++',
+                [
+                    '-g',
+                    program,
+                    commonDestPath,
+                    jsonPath,
+                    '-o',
+                    exePath,
+                    '-I',
+                    includePath,
+                    '-I',
+                    thirdPartyPath,
+                ],
+                { shell: false },
+            );
+        } catch (e) {
+            // vscode.window.showErrorMessage(e);
+            leetCodeChannel.show();
+            return;
+        }
+
+        debugConfig.program = exePath;
+        debugConfig.cwd = extensionState.cachePath;
+        // map build source file to user source file
+        debugConfig.sourceFileMap = {
+            [newSourceFilePath]: filePath,
+        };
+        return debugConfig;
     }
 }
 
