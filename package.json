@@ -44,10 +44,16 @@
             "type": "object",
             "title": "debug-leetcode configuration",
             "properties": {
-                "debug-leetcode.miDebugerPath": {
+                "debug-leetcode.miDebuggerPath": {
                     "type": "string",
                     "default": "",
                     "description": "gdb absolute path.",
+                    "scope": "resource"
+                },
+                "debug-leetcode.cppCompiler": {
+                    "type": "string",
+                    "default": "gdb",
+                    "description": "cpp compiler, gdb or clang.",
                     "scope": "resource"
                 }
             }

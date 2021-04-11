@@ -28,6 +28,15 @@ function getGdbDefaultConfig(): IDebugConfig {
         miDebuggerPath: isWindows() ? 'gdb.exe' : 'gdb',
     };
 }
+
+function getClangDefaultConfig(): IDebugConfig {
+    return {
+        type: 'cppdbg',
+        MIMode: 'lldb',
+        externalConsole: false,
+    };
+}
+
 const templateMap: any = {
     116: [117],
     429: [559, 589, 590],
@@ -241,15 +250,31 @@ using namespace std;
         );
         const thirdPartyPath: string = path.join(extDir, 'src/debug/thirdparty/c');
         const jsonPath: string = path.join(extDir, 'src/debug/thirdparty/c/cJSON.c');
-        const debugConfig = await this.getGdbDebugConfig({
-            program,
-            exePath,
-            commonDestPath,
-            jsonPath,
-            thirdPartyPath,
-            filePath,
-            newSourceFilePath,
-        });
+
+        const compiler =
+            vscode.workspace.getConfiguration('debug-leetcode').get<string>('cppCompiler') ?? 'gdb';
+        let debugConfig: any;
+        if (compiler === 'clang') {
+            debugConfig = await this.getClangDebugConfig({
+                program,
+                exePath,
+                commonDestPath,
+                jsonPath,
+                thirdPartyPath,
+                filePath,
+                newSourceFilePath,
+            });
+        } else {
+            debugConfig = await this.getGdbDebugConfig({
+                program,
+                exePath,
+                commonDestPath,
+                jsonPath,
+                thirdPartyPath,
+                filePath,
+                newSourceFilePath,
+            });
+        }
 
         const args: string[] = [
             filePath,
@@ -383,6 +408,59 @@ using namespace std;
             await executeCommand(
                 'g++',
                 [
+                    '-g',
+                    program,
+                    commonDestPath,
+                    jsonPath,
+                    '-o',
+                    exePath,
+                    '-I',
+                    includePath,
+                    '-I',
+                    thirdPartyPath,
+                ],
+                { shell: false },
+            );
+        } catch (e) {
+            // vscode.window.showErrorMessage(e);
+            leetCodeChannel.show();
+            return;
+        }
+
+        debugConfig.program = exePath;
+        debugConfig.cwd = extensionState.cachePath;
+        // map build source file to user source file
+        debugConfig.sourceFileMap = {
+            [newSourceFilePath]: filePath,
+        };
+        return debugConfig;
+    }
+
+    private async getClangDebugConfig({
+        program,
+        exePath,
+        commonDestPath,
+        jsonPath,
+        thirdPartyPath,
+        filePath,
+        newSourceFilePath,
+    }: {
+        program: string;
+        exePath: string;
+        commonDestPath: string;
+        jsonPath: string;
+        thirdPartyPath: string;
+        filePath: string;
+        newSourceFilePath: string;
+    }) {
+        const debugConfig = getClangDefaultConfig();
+        try {
+            const includePath: string = path.dirname(exePath);
+            await executeCommand(
+                '/usr/bin/clang++',
+                [
+                    '-std=c++17',
+                    '-stdlib=libc++',
                     '-g',
                     program,
                     commonDestPath,
